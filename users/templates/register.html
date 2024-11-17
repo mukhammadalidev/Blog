@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+    {% block content %}
+       <div class="container">
+        <div class="row">
+        <div class="col-md-4">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-primary" style="border-radius: 0px">Ro'yxatdan o'tish</button> siz ilgari ro'yxatdan o'tgan bo'sayiz <a href="{% url 'users:login' %}">linkni</a> bosing
+            </form>
+        </div>
+        </div>
+       </div>
+    {% endblock content %}

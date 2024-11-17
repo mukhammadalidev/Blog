@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+    {% block content %}
+       <div class="container">
+              {% for a in user %}
+        <div class="row">
+         <div class="col-md-12 mb-2  border d-flex align-items-center">
+
+             <h4>
+                 <img width="100" height="100" src="{{ a.author.user_picture.url }}" alt="">
+                     </h4>
+             <p><span >&nbsp;Author:{{ a.author.username }}</span><br>
+             <span >&nbsp;email:{{ a.author.email }}</span>
+             </p>
+
+             <p>
+
+             </p>
+         </div>
+
+
+        </div>
+       {% endfor %}
+       </div>
+    {% endblock content %}

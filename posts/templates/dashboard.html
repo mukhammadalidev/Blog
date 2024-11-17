@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load hitcount_tags %}
+{% block content %}
+<div class="container">
+<div class="row">
+  
+        <h1>Dashboard</h1>
+        {% for x in posts %}
+              <div class="col-12 col-md-3">
+             <div class="card" style="width: 18rem;">
+  <img class="card-img-top" height="200px" src="{{ x.post_picture.url }}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{ x.title }} <mark><i class="fa-regular fa-eye"></i>{% get_hit_count for x %}</mark></h5>
+      <p class="bg-success p-2">Status:{{ x.status }}</p>
+    <p class="card-text">
+        {{ x.description|truncatewords:2 }}
+    </p>
+   <div class="btn-group">
+        <a href="{% url 'posts:detail' x.id %}" class="btn btn-outline-primary">detail</a>
+    <a href="{% url 'posts:edit' x.id %}" class="btn btn-outline-dark">edit</a>
+    <a href="{% url 'posts:delete' x.id %}" class="btn btn-outline-danger" >delete</a>
+   </div>
+
+  </div>
+</div>
+                </div>
+        {% endfor %}
+
+
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load hitcount_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="project-info-box mt-0">
+                <h5>{{ post.title }}</h5>
+                <mark><i class="fa-regular fa-eye"></i>{% get_hit_count for post %}</mark>
+                <p class="mb-0">{{ post.description }}</p>
+            </div><!-- / project-info-box --><mark></mark>
+
+            <div class="project-info-box">
+                <p><b>Client:</b> {{ post.author.email }}</p>
+                <p><b>Date:</b> {{ post.created_time }}</p>
+            </div><!-- / project-info-box -->
+
+            <div class="project-info-box mt-0 mb-0">
+
+            </div><!-- / project-info-box -->
+        </div><!-- / column -->
+
+        <div class="col-md-7">
+            <img width="100%"  src="{{ post.post_picture.url }}" alt="project-image" class="rounded">
+            <div class="project-info-box">
+
+            </div><!-- / project-info-box -->
+        </div><!-- / column -->
+           <div class="col-md-4 col-sm-12">
+               <form method="post">
+                    {% csrf_token %}
+                     {{ comment |crispy }}
+<button class="btn btn-primary" >add review</button>
+
+                </form>
+           </div>
+    </div>
+<section>
+
+  <div class="container my-5 py-5 text-dark">
+    <div class="row d-flex justify-content-end">
+      <div class="col-md-12 col-lg-10 col-xl-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+        </div>
+    {% for review in post.postreview_set.all %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="d-flex flex-start">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="{{ review.author.user_picture.url }}" alt="avatar" width="40"
+                height="40" />
+              <div class="w-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="text-primary fw-bold mb-0">
+                    {{ review.author }}
+                    <span class="text-dark ms-2">{{ review.comment }}</span>
+                  </h6>
+                  <p class="mb-0">{{ review.created_time }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="small mb-0" style="color: #aaa;">
+                    <a href="#!" class="link-grey">Remove</a>
+                  </p>
+                  <div class="d-flex flex-row">
+                    <i class="fas fa-star text-warning me-2"></i>
+                    <i class="far fa-check-circle" style="color: #aaa;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</section>
+</div>
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load hitcount_tags %}
+{% block content %}
+<div class="container">
+       <div class="row">
+           <div class="col-12 mx-auto mb-5">
+             <div class="float-end">
+                 <form method="get" class="btn-group">
+                       <input type="text" class="form-control" name="q">
+               <button class="btn btn-outline-success">Search</button>
+                 </form>
+             </div>
+           </div>
+       </div>
+<div class="row">
+
+{% for post in posts.object_list %}
+        <div class="col-12 col-md-3">
+    <div class="card" style="width: 18rem;">
+  <img height="200px" class="card-img-top" src="{{ post.post_picture.url }}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{ post.title|truncatewords:3 }}</h5>
+    <p class="card-text">{{ post.description|truncatewords:2 }}<mark><i class="fa-regular fa-eye"></i>{% get_hit_count for post %}</mark></p>
+<div class="btn-group">
+        <a href="{% url "posts:edit" post.id %}" class="btn btn-primary">edit</a>
+    <a href="{% url "posts:delete" post.id %}" class="btn btn-outline-dark">delete</a>
+    <a href="{% url 'posts:detail' post.id %}" class="btn btn-success">detail</a>
+</div>
+  </div>
+</div>
+        </div>
+        {% endfor %}
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+   {%if posts.has_previous %} {# whether the previous page exists #}
+          <li class="page-item">  <a class="page-link" href="{% url 'posts:my_post' %}?page={{posts.previous_page_number}}"><</a></li> {# link to the prev page #}
+        {% endif %}
+     <li class="page-item"><a class="page-link" href="#">{{ posts.number }}</a></li> {# the current page number #}
+   {%if posts.has_next %} {# whether the next page exists #}
+         <li class="page-item">   <a class="page-link" href="{% url 'posts:my_post' %}?page={{posts.next_page_number}}">></a></li> {# link to the next page #}
+        {% endif %}
+  </ul>
+</nav>
+
+</div>
+</div>
+{% endblock content %}

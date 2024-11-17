@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% load crispy_forms_tags %}
+    {% block content %}
+       <div class="container">
+       <div class="row">
+           <div class="col-4 mx-auto mb-5">
+             <div class="float-end">
+                 <form method="get" class="btn-group">
+                       <input type="text" class="form-control" name="q">
+               <button class="btn btn-outline-success">Search</button>
+                 </form>
+             </div>
+           </div>
+       </div>
+              {% for post in posts %}
+        <div class="row">
+         <div class="col-md-4 mx-auto border">
+
+
+                   <h4>
+                 <img width="50" height="50" style="border-radius: 50%" src="{{ post.author.user_picture.url}}" alt="">
+                    {{ post.author }}
+                       {% if request.user == post.author %}
+                       You Post
+                       {% else %}
+                          <a href="" class="btn btn-danger">Add Friend</a>
+                       {% endif %}
+                      </h4><span>created_time:{{ post.created_time|date:"M d, Y" }}   <mark><i class="fa-regular fa-eye"></i>{% get_hit_count for post %}</mark></span>
+             <p><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></p>
+                <img  class="w-100" src="{{ post.post_picture.url }}" alt="">
+             <p class="w-100">
+                 {{ post.description|truncatewords:50 }}
+             </p>
+
+         </div>
+
+
+        </div>
+       {% endfor %}
+       </div>
+    {% endblock content %}

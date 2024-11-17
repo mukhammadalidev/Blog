@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+    {% block content %}
+      <div class="container">
+<div class="row gutters">
+	<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="account-settings">
+					<div class="user-profile">
+						<div class="user-avatar">
+							<img src="{{ user.user_picture.url }}" alt="profile_picture">
+						</div>
+						<h5 class="user-name">{{ user.first_name }} {{ user.last_name }}</h5>
+						<h6 class="user-email">username:{{ user.username }}</h6>
+						<h6 class="user-email">email:{{ user.email }}</h6>
+					</div>
+					<div class="about">
+						<h5 class="mb-2 text-primary">About</h5>
+						<p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+		<div class="card h-100">
+			<div class="card-body">
+				<div class="row gutters">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ profile|crispy }}
+                            <button type="submit" class="btn btn-primary" style="border-radius: 0px">Save</button>
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+    {% endblock content %}

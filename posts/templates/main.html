@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% load crispy_forms_tags %}
+    {% block content %}
+       <div class="container">
+       <div class="row">
+           <div class="col-4 mx-auto mb-5">
+             <div class="float-end">
+             {% if recomment_post %}
+                 <form method="get" class="btn-group">
+                     <select  name="filter" id="" class="form-select w-100">
+
+                         <option value="hours" {% if select == 'hours' %}selected{% endif %}>1 hours</option>
+
+                         <option value="week" {% if select == 'week' %}selected{% endif %}>7 days</option>
+
+                         <option value="year" {% if select == 'year' %}selected{% endif %}>Years</option>
+
+                     </select>
+                     <button class="btn btn-outline-info">filter</button>
+                 </form>
+             {% endif %}
+             </div>
+           </div>
+       </div>
+              {% for post in recomment_post %}
+
+        <div class="row">
+         <div class="col-md-4 mx-auto">
+                 <div class="card shadow-sm">
+                     <img src="{{ post.post_picture.url }}" class="card-img-top w-100" alt="">
+
+            <div class="card-body">
+
+                  <h3 class="rounded">{{ post.title}}</h3>
+              <p class="card-text">
+
+                  {{ post.description|truncatewords:30 }}
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a href="{% url 'posts:detail' post.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                </div>
+               <b> Like:{{ post.likes.count }} </b>
+                   <form method="post" action="{% url 'posts:add_like' post.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">
+                    {% if request.user in post.likes.all %}
+                        Unlike
+                    {% else %}
+                       <i  class="fa-regular fa-thumbs-up"></i>
+                    {% endif %}
+                </button>
+            </form>
+                <small class="text-muted">  <span class="badge bg-dark">
+
+
+
+                 </b> <i class="fa-regular fa-eye"></i>{% get_hit_count for post %}</span> {{ post.created_time|date:"M d, Y"  }}</small>
+              </div>
+            </div>
+          </div>
+
+
+         </div>
+
+
+        </div>
+       {% endfor %}
+    {% endblock content %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if request.user.is_superuser %}
+        <div class="container">
+<div class="row">
+    <div class="col-12">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">username</th>
+      <th scope="col">email</th>
+      <th scope="col">actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for x in users %}
+      <tr>
+      <th scope="row">{{ x.id }}</th>
+      <td>{{ x.first_name }}</td>
+      <td>{{ x.last_name }}</td>
+      <td>@{{ x.username }}</td>
+      <td>{{ x.email }}</td>
+      <td>
+          <a href="{% url 'users:users_edit' x.id %}" class="btn btn-info"><i class="fa-regular fa-pen-to-square"></i></a>
+          <a href="{% url 'users:delete_user' x.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+      </td>
+    </tr>
+
+        {% endfor %}
+
+  </tbody>
+</table>
+
+    </div>
+</div>
+</div>
+    {% else %}
+   <div class="container">
+    Siz admin emasiz
+   </div>
+        <script>
+        alert("siz admin emasiz")
+        </script>
+    {% endif %}
+
+{% endblock content %}
